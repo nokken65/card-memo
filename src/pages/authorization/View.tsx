@@ -1,10 +1,15 @@
 import React from 'react'
-import { Button, Center, Container, Divider, Stack, Title } from '@mantine/core'
+import { Button, Center, Container, Divider, rem, Stack } from '@mantine/core'
+import {
+  IconBrandGithubFilled,
+  IconBrandGoogleFilled
+} from '@tabler/icons-react'
 import {
   AnimatePresence,
   motion,
   MotionConfig,
-  Transition
+  Transition,
+  Variants
 } from 'framer-motion'
 
 import { LoginForm, RegisterForm } from '@/features/authorize/ui'
@@ -27,6 +32,13 @@ const View = () => {
 
   const handleSwapStep = () => setStep(SWAP_STEP_MAP[step].toStep())
 
+  const googleIcon = (
+    <IconBrandGoogleFilled style={{ width: rem(24), height: rem(24) }} />
+  )
+  const githubIcon = (
+    <IconBrandGithubFilled style={{ width: rem(24), height: rem(24) }} />
+  )
+
   return (
     <Center
       style={{
@@ -36,27 +48,29 @@ const View = () => {
         overflowX: 'hidden'
       }}
     >
-      <MotionConfig reducedMotion="user">
-        <AnimatePresence mode="popLayout">
-          {step === 'register' && (
-            <Container
-              key="register"
-              style={{ overflowX: 'hidden' }}
-            >
-              <Stack>
+      <Stack>
+        <MotionConfig reducedMotion="user">
+          <AnimatePresence mode="popLayout">
+            {step === 'register' && (
+              <Stack
+                key="register"
+                style={{ overflowX: 'hidden' }}
+              >
                 <motion.h1
                   transition={transition}
-                  initial={{ x: '-150%' }}
-                  exit={{ x: '-150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsLeft}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   Register
                 </motion.h1>
                 <motion.div
                   transition={transition}
-                  initial={{ x: '150%' }}
-                  exit={{ x: '150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsRight}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   <RegisterForm />
                 </motion.div>
@@ -66,34 +80,35 @@ const View = () => {
                   size="sm"
                   onClick={handleSwapStep}
                   transition={transition}
-                  initial={{ x: '-150%' }}
-                  exit={{ x: '-150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsLeft}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   {SWAP_STEP_MAP[step].label}
                 </Button>
               </Stack>
-            </Container>
-          )}
-          {step === 'login' && (
-            <Container
-              key="login"
-              style={{ overflowX: 'hidden' }}
-            >
-              <Stack>
+            )}
+            {step === 'login' && (
+              <Stack
+                key="login"
+                style={{ overflowX: 'hidden' }}
+              >
                 <motion.h1
                   transition={transition}
-                  initial={{ x: '150%' }}
-                  exit={{ x: '150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsRight}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   Login
                 </motion.h1>
                 <motion.div
                   transition={transition}
-                  initial={{ x: '-150%' }}
-                  exit={{ x: '-150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsLeft}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   <LoginForm />
                 </motion.div>
@@ -103,19 +118,47 @@ const View = () => {
                   size="sm"
                   onClick={handleSwapStep}
                   transition={transition}
-                  initial={{ x: '150%' }}
-                  exit={{ x: '150%' }}
-                  animate={{ x: 0 }}
+                  variants={variantsRight}
+                  initial="initial"
+                  exit="initial"
+                  animate="animate"
                 >
                   {SWAP_STEP_MAP[step].label}
                 </Button>
               </Stack>
-            </Container>
-          )}
-        </AnimatePresence>
-      </MotionConfig>
+            )}
+          </AnimatePresence>
+        </MotionConfig>
+        <Divider />
+        <Stack>
+          <Button
+            size="md"
+            variant="light"
+            leftSection={googleIcon}
+          >
+            continue with google
+          </Button>
+          <Button
+            size="md"
+            variant="light"
+            leftSection={githubIcon}
+          >
+            continue with github
+          </Button>
+        </Stack>
+      </Stack>
     </Center>
   )
+}
+
+const variantsRight: Variants = {
+  initial: { x: '150%' },
+  animate: { x: 0 }
+}
+
+const variantsLeft: Variants = {
+  initial: { x: '-150%' },
+  animate: { x: 0 }
 }
 
 const transition: Transition = {
