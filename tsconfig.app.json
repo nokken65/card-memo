@@ -1,0 +1,12 @@
+{
+  "extends": ["@nokken65/ts-config/react"],
+  "include": ["src", "../it-incubator/todolist/src/shared/libs/dom"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["node"]
+  }
+}
